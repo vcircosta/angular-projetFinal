@@ -31,10 +31,6 @@ reservations.service.ts → gestion de l’état et appels HTTP
 ➡️ But : gérer les réservations des élèves.
 
 
-
-
-
-
 👉 src/app/features/admin/
 
 Tout ce qui concerne la gestion par les administrateurs.
@@ -47,6 +43,9 @@ user-management.component.ts → gérer les comptes utilisateurs
 computer-management.component.ts → gérer les ordinateurs disponibles
 
 ➡️ But : permettre à l’admin de superviser tout.
+
+
+
 
 
 

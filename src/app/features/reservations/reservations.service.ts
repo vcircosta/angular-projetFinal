@@ -1,33 +1,63 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Injectable, signal, inject } from '@angular/core';
+import { Observable, of, throwError, delay } from 'rxjs';
+import { tap } from 'rxjs/operators'; // <-- Import manquant
 import { Reservation } from '../../core/models/reservation.model';
+import { ErrorService } from '../../shared/services/error.services';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReservationsService {
-  private http = inject(HttpClient);
-  private API_URL = 'http://localhost:4200/api/reservations';
+  private errorService = inject(ErrorService);
 
   reservations = signal<Reservation[]>([]);
   selectedReservation = signal<Reservation | null>(null);
 
-  loadReservations() {
-    this.http.get<Reservation[]>(this.API_URL).subscribe({
-      next: data => this.reservations.set(data),
-    });
+  private reservationsMock: Reservation[] = [
+    { id: 1, computerId: 101, computerName: 'PC-101', userId: 2, date: '2025-09-04', duration: 2 },
+    { id: 2, computerId: 102, computerName: 'PC-102', userId: 2, date: '2025-09-05', duration: 3 },
+  ];
+
+  loadReservations(): void {
+    of(this.reservationsMock)
+      .pipe(delay(300))
+      .subscribe(res => this.reservations.set(res));
   }
 
-  loadReservation(id: number) {
-    this.http.get<Reservation>(`${this.API_URL}/${id}`).subscribe({
-      next: data => this.selectedReservation.set(data),
-    });
+  loadReservation(id: number): void {
+    const reservation = this.reservationsMock.find(r => r.id === id) || null;
+    of(reservation)
+      .pipe(delay(300))
+      .subscribe(res => this.selectedReservation.set(res));
   }
 
   addReservation(reservation: Partial<Reservation>): Observable<Reservation> {
-    return this.http.post<Reservation>(this.API_URL, reservation).pipe(
-      tap(newRes => this.reservations.update(list => [...list, newRes]))
+    const newReservation: Reservation = {
+      id: this.reservationsMock.length + 1,
+      computerId: reservation.computerId || 0,
+      computerName: reservation.computerName || 'Unknown',
+      userId: reservation.userId || 0,
+      date: reservation.date || new Date().toISOString().split('T')[0],
+      duration: reservation.duration || 1,
+    };
+
+    this.reservationsMock.push(newReservation);
+
+    return of(newReservation).pipe(
+      delay(300),
+      tap((res: Reservation) => this.reservations.update(list => [...list, res])) // <-- ajouter type
     );
+  }
+
+  deleteReservation(id: number): Observable<void> {
+    const index = this.reservationsMock.findIndex(r => r.id === id);
+    if (index !== -1) {
+      this.reservationsMock.splice(index, 1);
+      this.reservations.update(list => list.filter(r => r.id !== id));
+      return of(void 0).pipe(delay(300));
+    } else {
+      this.errorService.showError('Réservation non trouvée');
+      return throwError(() => new Error('Réservation non trouvée'));
+    }
   }
 }

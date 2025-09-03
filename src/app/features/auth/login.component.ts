@@ -1,26 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../features/auth/auth.service';
+import { LoginRequest } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <h2 class="text-xl font-bold">Login</h2>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-2">
-      <input formControlName="username" placeholder="Username" class="border p-2" />
-      <input type="password" formControlName="password" placeholder="Password" class="border p-2" />
-
-      <button type="submit" [disabled]="loginForm.invalid" class="bg-blue-500 text-white px-4 py-2">
-        Login
-      </button>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input formControlName="email" placeholder="Email" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      <button type="submit" [disabled]="form.invalid">Login</button>
     </form>
-
-    <p *ngIf="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</p>
   `
 })
 export class LoginComponent {
@@ -28,21 +22,26 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  errorMessage = '';
-
-  loginForm = this.fb.group({
-    username: ['', Validators.required],
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    if (this.form.invalid) return;
 
-    const { username, password } = this.loginForm.value;
+    // Déclarer l'objet credentials ici
+    const credentials: LoginRequest = {
+      email: this.form.value.email!,
+      password: this.form.value.password!
+    };
 
-    this.authService.login(username!, password!).subscribe({
-      next: () => this.router.navigate(['/reservations']),
-      error: () => this.errorMessage = 'Invalid credentials',
+    this.authService.login(credentials).subscribe({
+      next: user => {
+        console.log('Connecté :', user);
+        this.router.navigate(['/reservations']);
+      },
+      error: err => console.error(err)
     });
   }
 }
