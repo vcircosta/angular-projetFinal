@@ -11,7 +11,7 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
 
-  private API_URL = 'http://localhost:3000/api/auth';
+  private API_URL = 'http://localhost:4200/api/auth';
 
   login(username: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.API_URL}/login`, { username, password }).pipe(

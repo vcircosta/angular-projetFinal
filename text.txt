@@ -48,6 +48,8 @@ computer-management.component.ts → gérer les ordinateurs disponibles
 
 ➡️ But : permettre à l’admin de superviser tout.
 
+
+
 📂 2. core/
 
 C’est le noyau de ton application, partagé par toutes les features.

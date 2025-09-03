@@ -1,14 +1,14 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { Reservation } from '../models/reservation.model';
+import { Reservation } from '../../core/models/reservation.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationsService {
   private http = inject(HttpClient);
-  private API_URL = 'http://localhost:3000/api/reservations'; // à adapter
+  private API_URL = 'http://localhost:4200/api/reservations';
 
   reservations = signal<Reservation[]>([]);
   selectedReservation = signal<Reservation | null>(null);

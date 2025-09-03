@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservationsService } from '../../features/reservations/reservations.service';
+import { Reservation } from '../../core/models/reservation.model';
 
 @Component({
   selector: 'app-reservation-form',
@@ -27,14 +28,14 @@ export class ReservationFormComponent {
   private router = inject(Router);
 
   form = this.fb.group({
-    computerName: ['', Validators.required],
-    date: ['', Validators.required],
+    computerName: this.fb.control('', { validators: Validators.required, nonNullable: true }),
+    date: this.fb.control('', { validators: Validators.required, nonNullable: true }),
   });
 
   onSubmit() {
     if (this.form.invalid) return;
 
-    this.reservationsService.addReservation(this.form.value).subscribe({
+    this.reservationsService.addReservation(this.form.value as Partial<Reservation>).subscribe({
       next: () => this.router.navigate(['/reservations']),
     });
   }
