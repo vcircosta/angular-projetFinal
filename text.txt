@@ -1,0 +1,140 @@
+📂 1. features/
+
+C’est ici que vivent les vraies fonctionnalités de ton app (DDD = Domain Driven Design → chaque "domaine métier" a son espace).
+
+👉 src/app/features/auth/
+
+Contient tout ce qui touche à l’authentification (login, register, gestion de session).
+Exemples :
+
+login.component.ts (standalone)
+
+register.component.ts (standalone)
+
+auth.service.ts (pour appeler l’API d’authentification)
+
+➡️ But : permettre aux utilisateurs et admins de se connecter.
+
+👉 src/app/features/reservations/
+
+Contient la partie réservation d’ordinateurs.
+Exemples :
+
+reservation-list.component.ts → liste des réservations
+
+reservation-form.component.ts → formulaire de création
+
+reservation-detail.component.ts → détails d’une réservation
+
+reservations.service.ts → gestion de l’état et appels HTTP
+
+➡️ But : gérer les réservations des élèves.
+
+
+
+
+
+
+👉 src/app/features/admin/
+
+Tout ce qui concerne la gestion par les administrateurs.
+Exemples :
+
+admin-dashboard.component.ts → vue d’ensemble
+
+user-management.component.ts → gérer les comptes utilisateurs
+
+computer-management.component.ts → gérer les ordinateurs disponibles
+
+➡️ But : permettre à l’admin de superviser tout.
+
+📂 2. core/
+
+C’est le noyau de ton application, partagé par toutes les features.
+
+👉 src/app/core/services/
+
+Services globaux, utilisables partout.
+Exemples :
+
+auth.service.ts (si tu veux qu’il soit global)
+
+api.service.ts (un wrapper HTTP centralisé)
+
+notification.service.ts (toast, alertes globales)
+
+👉 src/app/core/guards/
+
+Les guards Angular pour protéger les routes.
+Exemples :
+
+auth.guard.ts → bloque l’accès si l’utilisateur n’est pas connecté
+
+admin.guard.ts → bloque l’accès si l’utilisateur n’est pas admin
+
+👉 src/app/core/interceptors/
+
+Les intercepteurs HTTP (automatisent les requêtes).
+Exemples :
+
+auth.interceptor.ts → ajoute automatiquement le Authorization: Bearer token
+
+error.interceptor.ts → centralise la gestion des erreurs API
+
+👉 src/app/core/models/
+
+Les interfaces TypeScript qui définissent tes données.
+Exemples :
+
+// user.model.ts
+export interface User {
+  id: number;
+  username: string;
+  role: 'user' | 'admin';
+  token?: string;
+}
+
+// reservation.model.ts
+export interface Reservation {
+  id: number;
+  computerId: number;
+  userId: number;
+  date: string;
+  duration: number; // en minutes
+}
+
+
+➡️ But : éviter le any, respecter le typage strict.
+
+📂 3. shared/
+
+Tout ce qui est réutilisable partout dans l’app.
+
+👉 src/app/shared/components/
+
+Composants génériques réutilisables.
+Exemples :
+
+button.component.ts → bouton custom
+
+modal.component.ts → fenêtre modale générique
+
+loading-spinner.component.ts
+
+👉 src/app/shared/directives/
+
+Tes directives Angular custom.
+Exemples :
+
+highlight.directive.ts → met en surbrillance un élément
+
+role-based.directive.ts → affiche un bloc uniquement si l’utilisateur a un rôle précis
+
+👉 src/app/shared/pipes/
+
+Tes pipes Angular custom.
+Exemples :
+
+date-format.pipe.ts → formater une date joliment
+
+role-label.pipe.ts → transformer "admin" en "Administrateur"
