@@ -19,6 +19,9 @@
     "typescriptreact": "html"
   },
   "tailwindCSS.experimental.classRegex": [
-    ["class\\s*=\\s*['\"`]([^'\"`]*).*?['\"`]", "([^'\"`]*)"]
+    [
+      "class\\s*=\\s*['\"`]([^'\"`]*).*?['\"`]",
+      "([^'\"`]*)"
+    ]
   ]
 }
