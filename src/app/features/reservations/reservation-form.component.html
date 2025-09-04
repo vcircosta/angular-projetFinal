@@ -1,0 +1,7 @@
+<app-button label="Sauvegarder" (clicked)="saveReservation()"></app-button>
+
+<app-modal [visible]="showModal" (closed)="showModal = false">
+    <p>Réservation ajoutée avec succès !</p>
+</app-modal>
+
+<app-loading-spinner [loading]="isLoading"></app-loading-spinner>
