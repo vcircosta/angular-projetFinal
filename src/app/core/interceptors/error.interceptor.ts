@@ -1,14 +1,18 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { NotificationService } from './../services/notification.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ErrorService } from '../../shared/services/error.services';
 
-export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-    const notify = inject(NotificationService);
+export const errorInterceptor: HttpInterceptorFn = (
+    req: HttpRequest<unknown>,
+    next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+    const errorService = inject(ErrorService);
 
     return next(req).pipe(
         catchError(err => {
-            notify.error(err?.error?.message || 'Une erreur est survenue.');
+            errorService.showError(err?.message || 'Erreur réseau');
             return throwError(() => err);
         })
     );
