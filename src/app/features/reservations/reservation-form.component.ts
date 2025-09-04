@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ReservationsService } from '../../features/reservations/reservations.service';
+import { ReservationsService } from '../../core/services/reservations.service';
 import { Reservation } from '../../core/models/reservation.model';
 
 @Component({

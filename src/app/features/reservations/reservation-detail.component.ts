@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ReservationsService } from '../../features/reservations/reservations.service';
+import { ReservationsService } from '../../core/services/reservations.service';
 
 @Component({
   selector: 'app-reservation-detail',
