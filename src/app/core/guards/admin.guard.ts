@@ -6,7 +6,8 @@ export const adminGuard: CanActivateFn = (): boolean | UrlTree => {
     const auth = inject(AuthService);
     const router = inject(Router);
 
-    const user = auth.getCurrentUser();
+    const user = auth.currentUser();
+
 
     if (user && user.role === 'admin') {
         return true;

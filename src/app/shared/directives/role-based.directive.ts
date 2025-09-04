@@ -14,7 +14,7 @@ export class RoleBasedDirective {
     ) { }
 
     @Input() set appRole(role: 'user' | 'admin') {
-        const currentUser = this.authService.getCurrentUser();
+        const currentUser = this.authService.currentUser();
         this.viewContainer.clear();
         if (currentUser?.role === role) {
             this.viewContainer.createEmbeddedView(this.templateRef);

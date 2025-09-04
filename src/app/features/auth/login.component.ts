@@ -9,13 +9,7 @@ import { LoginRequest } from '../../core/models/user.model';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input formControlName="email" placeholder="Email" />
-      <input type="password" formControlName="password" placeholder="Password" />
-      <button type="submit" [disabled]="form.invalid">Login</button>
-    </form>
-  `
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);

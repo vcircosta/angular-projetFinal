@@ -9,15 +9,7 @@ import { RegisterRequest } from '../../core/models/user.model';
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input formControlName="name" placeholder="Name" />
-      <input formControlName="email" placeholder="Email" />
-      <input type="password" formControlName="password" placeholder="Password" />
-      <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" />
-      <button type="submit" [disabled]="form.invalid">Register</button>
-    </form>
-  `
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);

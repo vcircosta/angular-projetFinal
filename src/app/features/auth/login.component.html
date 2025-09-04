@@ -1,0 +1,15 @@
+<h2>Se connecter</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+    <div>
+        <label>Email</label>
+        <input formControlName="email" type="email" placeholder="Email" />
+    </div>
+
+    <div>
+        <label>Mot de passe</label>
+        <input type="password" formControlName="password" placeholder="Mot de passe" />
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Se connecter</button>
+</form>
