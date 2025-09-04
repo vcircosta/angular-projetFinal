@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app';
 import { RouterOutlet } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, RouterOutlet],
+      imports: [AppComponent, RouterTestingModule], // <-- remplace RouterOutlet par RouterTestingModule
     }).compileComponents();
   });
 
