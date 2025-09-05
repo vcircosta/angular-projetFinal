@@ -13,42 +13,13 @@ import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner
   selector: 'app-reservation-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent, LoadingSpinnerComponent],
-  template: `
-    <h2 class="text-xl font-bold mb-4">Nouvelle réservation</h2>
-
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-
-      <input 
-        formControlName="computerName" 
-        placeholder="Nom de l'ordinateur" 
-        class="border p-2 rounded"
-      />
-
-      <input 
-        formControlName="date" 
-        type="date" 
-        class="border p-2 rounded"
-      />
-
-      <!-- bouton custom -->
-      <app-button label="Enregistrer" [disabled]="form.invalid || isLoading()" />
-
-      <!-- spinner -->
-      <app-loading-spinner [loading]="isLoading()" />
-
-      <!-- affichage erreur -->
-      <p *ngIf="error()" class="text-red-500 text-sm">
-        {{ error() }}
-      </p>
-    </form>
-  `
+  templateUrl: './reservation-form.component.html'
 })
 export class ReservationFormComponent {
   private fb = inject(FormBuilder);
   private reservationsService = inject(ReservationsService);
   private router = inject(Router);
 
-  // ✅ Signals pour gérer état UI
   isLoading = signal(false);
   error = signal<string | null>(null);
 

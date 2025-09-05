@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { Observable, of, throwError, delay } from 'rxjs';
-import { tap } from 'rxjs/operators'; // <-- Import manquant
+import { tap } from 'rxjs/operators';
 import { Reservation } from '../models/reservation.model';
 import { ErrorService } from '../../shared/services/error.services';
 

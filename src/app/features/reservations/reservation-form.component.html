@@ -1,7 +1,19 @@
-<app-button label="Sauvegarder" (clicked)="saveReservation()"></app-button>
+<h2 class="text-xl font-bold mb-4">Nouvelle réservation</h2>
 
-<app-modal [visible]="showModal" (closed)="showModal = false">
-    <p>Réservation ajoutée avec succès !</p>
-</app-modal>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
 
-<app-loading-spinner [loading]="isLoading"></app-loading-spinner>
+    <input formControlName="computerName" placeholder="Nom de l'ordinateur" class="border p-2 rounded" />
+
+    <input formControlName="date" type="date" class="border p-2 rounded" />
+
+    <!-- bouton custom -->
+    <app-button label="Enregistrer" type="submit" [disabled]="form.invalid || isLoading()" />
+
+    <!-- spinner -->
+    <app-loading-spinner [loading]="isLoading()" />
+
+    <!-- affichage erreur -->
+    <p *ngIf="error()" class="text-red-500 text-sm">
+        {{ error() }}
+    </p>
+</form>
