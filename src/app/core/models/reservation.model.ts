@@ -5,4 +5,5 @@ export interface Reservation {
   userId: number;
   date: string;
   duration: number;
+  location: string;
 }

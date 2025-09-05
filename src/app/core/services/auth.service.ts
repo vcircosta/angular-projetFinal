@@ -75,6 +75,12 @@ export class AuthService {
     return this.currentUser() !== null;
   }
 
+  /** Récupère tous les utilisateurs */
+  getAllUsers(): Observable<User[]> {
+    // Simule un délai comme si on appelait un backend
+    return of(this.users).pipe(delay(300));
+  }
+
   /** Déconnexion */
   logout(): void {
     this.currentUser.set(null);

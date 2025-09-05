@@ -14,8 +14,8 @@ export class ReservationsService {
   selectedReservation = signal<Reservation | null>(null);
 
   private reservationsMock: Reservation[] = [
-    { id: 1, computerId: 101, computerName: 'PC-101', userId: 2, date: '2025-09-04', duration: 2 },
-    { id: 2, computerId: 102, computerName: 'PC-102', userId: 2, date: '2025-09-05', duration: 3 },
+    { id: 1, computerId: 101, computerName: 'PC-101', userId: 2, date: '2025-09-04', duration: 2, location: 'Room A' },
+    { id: 2, computerId: 102, computerName: 'PC-102', userId: 2, date: '2025-09-05', duration: 3, location: 'Room B' },
   ];
 
   loadReservations(): void {
@@ -39,13 +39,14 @@ export class ReservationsService {
       userId: reservation.userId || 0,
       date: reservation.date || new Date().toISOString().split('T')[0],
       duration: reservation.duration || 1,
+      location: reservation.location || 'Room A',
     };
 
     this.reservationsMock.push(newReservation);
 
     return of(newReservation).pipe(
       delay(300),
-      tap((res: Reservation) => this.reservations.update(list => [...list, res])) // <-- ajouter type
+      tap((res: Reservation) => this.reservations.update(list => [...list, res]))
     );
   }
 
