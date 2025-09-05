@@ -8,6 +8,7 @@ export interface RandomUser {
     name: string;
     email: string;
     location: string;
+    role: 'user' | 'admin';
 }
 
 @Injectable({

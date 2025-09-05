@@ -1,9 +1,13 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { User } from '../../core/models/user.model';
-import { AuthService } from '../../core/services/auth.service';
+import { RandomUserService, RandomUser } from '../../core/services/random-user.service';
 import { NgForOf } from '@angular/common';
+
+// ⚡ Nouveau type : RandomUser avec role
+export interface AppUser extends RandomUser {
+  role: 'user' | 'admin';
+}
 
 @Component({
   selector: 'app-user-management',
@@ -17,7 +21,7 @@ import { NgForOf } from '@angular/common';
       <thead>
         <tr class="bg-gray-200">
           <th class="border border-gray-400 px-2 py-1">ID</th>
-          <th class="border border-gray-400 px-2 py-1">Username</th>
+          <th class="border border-gray-400 px-2 py-1">Name</th>
           <th class="border border-gray-400 px-2 py-1">Email</th>
           <th class="border border-gray-400 px-2 py-1">Role</th>
           <th class="border border-gray-400 px-2 py-1">Actions</th>
@@ -49,48 +53,71 @@ import { NgForOf } from '@angular/common';
         Add User
       </button>
     </form>
+
+    <button (click)="reloadRandomUsers()" class="mt-4 bg-blue-500 text-white px-3 py-1 rounded">
+      Reload Random Users
+    </button>
   `
 })
 export class UserManagementComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  private randomUserService = inject(RandomUserService);
 
-  // ⚡ état réactif avec signals
-  users = signal<User[]>([]);
+  // ⚡ Utilise AppUser et non RandomUser
+  users = signal<AppUser[]>([]);
 
   form = this.fb.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    role: ['user', Validators.required],
+    role: ['user' as 'user' | 'admin', Validators.required], // ⚡ type littéral
   });
 
   ngOnInit() {
-    this.loadUsers();
+    // ⚡ Utilisateur connecté avec role
+    const connectedUser: AppUser = {
+      id: '1',
+      name: 'Admin User',
+      email: 'admin@example.com',
+      location: 'HQ, France',
+      role: 'admin'
+    };
+    this.users.set([connectedUser]);
+
+    // Charger les Random Users
+    this.reloadRandomUsers();
   }
 
-  loadUsers() {
-    this.authService.getAllUsers().subscribe({
-      next: (users) => this.users.set(users),
-      error: (err) => console.error('Erreur chargement utilisateurs', err)
+  reloadRandomUsers() {
+    this.randomUserService.getUsers().subscribe({
+      next: (data) => {
+        // ⚡ Ajoute role par défaut aux RandomUsers
+        const randomUsersWithRole: AppUser[] = data.map(u => ({ ...u, role: 'user' }));
+        // Fusionne avec les utilisateurs existants (évite de supprimer l’admin)
+        const merged = [...this.users(), ...randomUsersWithRole].filter(
+          (user, index, self) => index === self.findIndex(u => u.id === user.id)
+        );
+        this.users.set(merged);
+      },
+      error: (err) => console.error(err)
     });
   }
 
   addUser() {
     if (this.form.invalid) return;
 
-    // Ici tu peux soit mocker, soit appeler une API pour créer l'utilisateur
-    const newUser: User = {
-      id: this.users().length + 1, // temporaire
-      ...this.form.value
-    } as User;
+    const newUser: AppUser = {
+      id: (this.users().length + 1).toString(),
+      name: this.form.value.username!,
+      email: this.form.value.email!,
+      location: 'Local',
+      role: this.form.value.role! as 'user' | 'admin'
+    };
 
-    // ajout dans le signal
     this.users.update(list => [...list, newUser]);
     this.form.reset({ role: 'user' });
   }
 
-  deleteUser(id: number) {
-    // Optionnel : appeler AuthService pour supprimer côté backend
+  deleteUser(id: string) {
     this.users.update(list => list.filter(u => u.id !== id));
   }
 }
