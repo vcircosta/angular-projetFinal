@@ -54,21 +54,30 @@ export class AuthService {
       return throwError(() => new Error('Cet email est déjà utilisé'));
     }
 
-    const newUser: User & { token: string } = {
-      id: this.users.length + 1,
+    const newUser: User = {
+      id: this.users.length + 1,   // <-- number, plus besoin de toString()
       name: data.name,
       email: data.email,
-      role: 'user',
-      token: 'mock-token-' + (this.users.length + 1),
+      role: 'user'
     };
 
+    // Ajoute au tableau interne (mock)
     this.users.push(newUser);
 
-    return of(newUser).pipe(
+    // Sauvegarde dans localStorage["users"] pour UserManagementComponent
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    storedUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(storedUsers));
+
+    // Crée un utilisateur courant avec token
+    const userWithToken = { ...newUser, token: 'mock-token-' + newUser.id };
+
+    return of(userWithToken).pipe(
       delay(500),
       tap(u => this.setCurrentUser(u))
     );
   }
+
 
   /** Vérifie si connecté */
   isLoggedIn(): boolean {
