@@ -1,0 +1,36 @@
+<h3 class="title">Computer Management</h3>
+
+<table class="computers-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Reservations</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let computer of usedComputers()">
+            <td>{{ computer.id }}</td>
+            <td>{{ computer.name }}</td>
+            <td>{{ computer.location }}</td>
+            <td>
+                <ul>
+                    <li *ngFor="let res of getReservations(computer.id)">
+                        {{ res.user }} ({{ res.date }}, {{ res.duration }}h)
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <button class="btn-delete" (click)="deleteComputer(computer.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<form [formGroup]="form" (ngSubmit)="addComputer()" class="add-form">
+    <input formControlName="name" placeholder="Computer Name" />
+    <input formControlName="location" placeholder="Location" />
+    <button type="submit" [disabled]="form.invalid" class="btn-add">Add Computer</button>
+</form>

@@ -1,0 +1,25 @@
+<h2 class="title">Nouvelle réservation</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+
+    <!-- Liste déroulante des PC -->
+    <select formControlName="computerId" class="input">
+        <option value="" disabled selected>Sélectionnez un ordinateur</option>
+        <option *ngFor="let computer of computers" [value]="computer.id">
+            {{ computer.name }}
+        </option>
+    </select>
+
+    <!-- Sélection de la date -->
+    <input formControlName="date" type="date" class="input" />
+
+    <!-- Durée en heures -->
+    <input formControlName="duration" type="number" min="1" class="input w-24" placeholder="Durée (h)" />
+
+    <!-- Boutons -->
+    <app-button label="Enregistrer" type="submit" [disabled]="form.invalid || isLoading()" />
+    <app-loading-spinner [loading]="isLoading()" />
+
+    <!-- Message d'erreur -->
+    <p *ngIf="error()" class="error-message">{{ error() }}</p>
+</form>

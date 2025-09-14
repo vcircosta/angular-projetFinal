@@ -1,0 +1,38 @@
+<h3 class="title">User Management</h3>
+
+<table class="users-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users()">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <button class="btn-delete" (click)="deleteUser(user.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<form [formGroup]="form" (ngSubmit)="addUser()" class="add-form">
+    <input formControlName="username" placeholder="Username" />
+    <input formControlName="email" placeholder="Email" type="email" />
+    <select formControlName="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+    </select>
+    <button type="submit" [disabled]="form.invalid" class="btn-add">Add User</button>
+</form>
+
+<button (click)="reloadRandomUsers()" class="btn-reload">
+    Reload Random Users
+</button>
