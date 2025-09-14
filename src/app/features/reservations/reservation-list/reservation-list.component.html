@@ -11,7 +11,7 @@
 
     <!-- Sélection de la salle -->
     <select formControlName="location" class="input">
-        <option value="">Select Room</option>
+        <option value="" disabled selected>Select Room</option>
         <option *ngFor="let room of rooms" [value]="room">{{ room }}</option>
     </select>
 
@@ -28,16 +28,12 @@
 </form>
 
 <!-- Liste des réservations -->
-<ul>
+<ul class="reservations-list">
     <li *ngFor="let reservation of reservations()" class="reservation-item">
         <div>
             <span class="computer-name">{{ reservation.computerName }}</span>
-            <span>
-                ({{ reservation.date }}, {{ reservation.duration }}h, {{ reservation.location }})
-            </span>
+            <span>({{ reservation.date }}, {{ reservation.duration }}h, {{ reservation.location }})</span>
         </div>
-        <button class="btn-delete" (click)="deleteReservation(reservation.id)">
-            Delete
-        </button>
+        <button class="btn-delete" (click)="deleteReservation(reservation.id)">Delete</button>
     </li>
 </ul>

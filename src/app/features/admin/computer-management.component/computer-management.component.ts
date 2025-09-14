@@ -1,6 +1,8 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReservationsService } from '../../../core/services/reservations.service/reservations.service';
+import { AuthService } from '../../../core/services/auth.service/auth.service';
+import { User } from '../../../core/models/user.model';
 
 export interface Computer {
   id: number;
@@ -11,64 +13,63 @@ export interface Computer {
 export interface Reservation {
   id: number;
   computerId: number;
-  user: string;
+  userId: number;
   date: string;
   duration: number;
+  location: string;
+  computerName?: string;
+  user?: string;
 }
 
 @Component({
   selector: 'app-computer-management',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule],
   templateUrl: './computer-management.component.html',
   styleUrls: ['./computer-management.component.scss']
 })
 export class ComputerManagementComponent implements OnInit {
-  private fb = inject(FormBuilder);
+  private reservationsService = inject(ReservationsService);
+  private authService = inject(AuthService);
 
-  computers = signal<Computer[]>(
-    Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      name: `PC-${101 + i}`,
-      location: `Room ${String.fromCharCode(65 + (i % 3))}`
-    }))
-  );
+  users = computed<User[]>(() => this.authService.getUsers());
 
-  reservations = signal<Reservation[]>([
-    { id: 1, computerId: 1, user: 'Alice', date: '2025-09-07', duration: 2 },
-    { id: 2, computerId: 2, user: 'Bob', date: '2025-09-08', duration: 3 }
-  ]);
+  computers = signal<Computer[]>(Array.from({ length: 10 }, (_, i) => ({
+    id: 101 + i,
+    name: `PC-${101 + i}`,
+    location: `Room ${String.fromCharCode(65 + (i % 3))}`
+  })));
 
-  usedComputers = computed(() =>
-    this.computers().filter(pc => this.reservations().some(r => r.computerId === pc.id))
-  );
+  reservations = signal<Reservation[]>([]);
 
-  form = this.fb.group({
-    name: this.fb.control('', { validators: Validators.required, nonNullable: true }),
-    location: this.fb.control('', { validators: Validators.required, nonNullable: true }),
-  });
-
-  ngOnInit() { }
-
-  addComputer() {
-    if (this.form.invalid) return;
-
-    const newComputer: Computer = {
-      id: this.computers().length + 1,
-      name: this.form.get('name')!.value,
-      location: this.form.get('location')!.value,
-    };
-
-    this.computers.update(list => [...list, newComputer]);
-    this.form.reset({ name: '', location: '' });
+  get usedComputers() {
+    return this.computers().filter(pc =>
+      this.reservations().some(r => r.computerId === pc.id)
+    );
   }
 
-  deleteComputer(id: number) {
-    this.computers.update(list => list.filter(c => c.id !== id));
-    this.reservations.update(list => list.filter(r => r.computerId !== id));
+  ngOnInit() {
+    this.reservationsService.loadReservations();
+    this.reservations.set(this.reservationsService.reservations());
+  }
+
+  deleteReservation(resId: number) {
+    this.reservations.update(list => list.filter(res => res.id !== resId));
+  }
+
+  deleteAllReservations(computerId: number) {
+    if (confirm('Are you sure you want to delete all reservations for this computer?')) {
+      this.reservations.update(list => list.filter(res => res.computerId !== computerId));
+    }
   }
 
   getReservations(computerId: number) {
-    return this.reservations().filter(r => r.computerId === computerId);
+    return this.reservations()
+      .filter(r => r.computerId === computerId)
+      .map(r => ({
+        ...r,
+        user: this.users().find(u => u.id === r.userId)?.name || 'Unknown'
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 }

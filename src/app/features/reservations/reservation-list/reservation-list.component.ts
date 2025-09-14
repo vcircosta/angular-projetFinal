@@ -57,12 +57,12 @@ export class ReservationListComponent implements OnInit {
       location: this.form.value.location!,
     };
 
-    this.reservationsService.addReservation(newReservation);
-
-    this.form.reset({ computerId: '', location: '', date: '', duration: 1 });
+    this.reservationsService.addReservation(newReservation).subscribe(() => {
+      this.form.reset({ computerId: '', location: '', date: '', duration: 1 });
+    });
   }
 
   deleteReservation(id: number) {
-    this.reservationsService.deleteReservation(id);
+    this.reservationsService.deleteReservation(id).subscribe();
   }
 }

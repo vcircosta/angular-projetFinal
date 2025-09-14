@@ -18,7 +18,7 @@ export class AuthService {
   private tokenKey = 'authToken';
 
   // Liste mockée des utilisateurs existants
-  private users: User[] = [
+  users: User[] = [
     { id: 1, name: 'Admin User', email: 'admin@example.com', role: 'admin' },
     { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user' },
   ];
@@ -110,5 +110,10 @@ export class AuthService {
   /** Récupère le token */
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  // Ajouter un getter public
+  getUsers(): User[] {
+    return this.users;
   }
 }
