@@ -1,18 +1,30 @@
-/* Conteneur principal centré */
+/* Conteneur global centré */
+.page-center {
+    display: flex;
+    justify-content: center;
+    /* centre horizontalement */
+    align-items: center;
+    /* centre verticalement */
+    min-height: 100vh;
+    /* prend toute la hauteur de la fenêtre */
+    background-color: #f0f2f5;
+    /* léger fond */
+    padding: 1rem;
+}
+
+/* Formulaire */
 .auth-form {
     width: 100%;
     max-width: 400px;
-    margin: 5vh auto;
-    /* centré verticalement avec un peu d'espace */
     padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    /* espace entre les champs */
     background-color: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     text-align: center;
+    /* titre centré */
 }
 
 /* Titres centrés */
@@ -52,7 +64,7 @@
     border-color: #007bff;
 }
 
-/* Bouton centré */
+/* Bouton */
 .auth-form button {
     margin-top: 1rem;
     padding: 0.75rem;
@@ -79,7 +91,6 @@
 /* Responsive */
 @media (max-width: 480px) {
     .auth-form {
-        margin: 5vh 1rem;
         padding: 1.5rem;
     }
 }

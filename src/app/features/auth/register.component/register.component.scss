@@ -83,3 +83,31 @@
         padding: 1.5rem;
     }
 }
+
+/* Conteneur global qui centre le formulaire */
+.page-center {
+    display: flex;
+    justify-content: center;
+    /* centre horizontalement */
+    align-items: center;
+    /* centre verticalement */
+    min-height: 100vh;
+    /* prend toute la hauteur de l'écran */
+    background-color: #f0f2f5;
+    padding: 1rem;
+}
+
+/* Conteneur principal centré */
+.auth-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    /* titre centré */
+}

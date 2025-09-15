@@ -1,32 +1,72 @@
+/* Titre */
 .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #1e293b;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1e3a8a;
+    text-align: center;
 }
 
+/* Conteneur formulaire */
 .form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Inputs et select */
 .input {
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    border-radius: 8px;
     border: 1px solid #cbd5e1;
-    padding: 0.5rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    color: #1e293b;
-    background: #f8fafc;
-
-    &:focus {
-        outline: none;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-    }
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+/* Petite largeur pour certains inputs */
+.w-24 {
+    width: 6rem;
+}
+
+/* Bouton */
+app-button {
+    align-self: center;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Spinner centré */
+app-loading-spinner {
+    align-self: center;
+    margin-top: 0.5rem;
+}
+
+/* Message d'erreur */
 .error-message {
     color: #ef4444;
     font-size: 0.875rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
 }
