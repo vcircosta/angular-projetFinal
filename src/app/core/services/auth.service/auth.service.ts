@@ -4,29 +4,41 @@ import { tap } from 'rxjs/operators';
 import { User, LoginRequest, RegisterRequest } from './../../models/user.model';
 import { ErrorService } from './../../../shared/services/error.services';
 
-type UserRole = 'user' | 'admin';
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private errorService = new ErrorService();
 
+  // utilisateur connecté
   currentUser = signal<User | null>(null);
   readonly currentUser$ = this.currentUser.asReadonly();
 
   private tokenKey = 'authToken';
+  private userKey = 'currentUser';
 
-  // Liste mockée des utilisateurs existants
-  users: User[] = [
+  private users: User[] = [
     { id: 1, name: 'Admin User', email: 'admin@example.com', role: 'admin' },
     { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user' },
   ];
 
   constructor() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      this.currentUser.set(JSON.parse(savedUser));
+    this.restoreSession();
+  }
+
+  /** Recharge un utilisateur depuis le localStorage */
+  private restoreSession(): void {
+    const savedUser = localStorage.getItem(this.userKey);
+    if (!savedUser) return;
+
+    try {
+      const parsed: User = JSON.parse(savedUser);
+      // On ne garde que si l'utilisateur a un rôle valide
+      if (parsed && (parsed.role === 'admin' || parsed.role === 'user')) {
+        this.currentUser.set(parsed);
+      } else {
+        this.clearSession();
+      }
+    } catch {
+      this.clearSession();
     }
   }
 
@@ -39,8 +51,9 @@ export class AuthService {
     }
 
     const token = 'mock-token-' + user.id;
+    const userWithToken = { ...user, token };
 
-    return of({ ...user, token }).pipe(
+    return of(userWithToken).pipe(
       delay(500),
       tap(u => this.setCurrentUser(u))
     );
@@ -61,15 +74,11 @@ export class AuthService {
       role: 'user'
     };
 
-    // Ajoute au tableau interne (mock)
     this.users.push(newUser);
-
-    // Sauvegarde dans localStorage["users"] pour UserManagementComponent
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     storedUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(storedUsers));
 
-    // Crée un utilisateur courant avec token
     const userWithToken = { ...newUser, token: 'mock-token-' + newUser.id };
 
     return of(userWithToken).pipe(
@@ -78,33 +87,36 @@ export class AuthService {
     );
   }
 
-
   /** Vérifie si connecté */
   isLoggedIn(): boolean {
     return this.currentUser() !== null;
   }
 
-  /** Récupère tous les utilisateurs */
-  getAllUsers(): Observable<User[]> {
-    // Simule un délai comme si on appelait un backend
-    return of(this.users).pipe(delay(300));
+  /** Vérifie si admin */
+  isAdmin(): boolean {
+    return this.currentUser()?.role === 'admin';
   }
 
   /** Déconnexion */
   logout(): void {
-    this.currentUser.set(null);
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem(this.tokenKey);
+    this.clearSession();
     this.errorService.showInfo('Déconnexion réussie');
   }
 
-  /** Stocke l’utilisateur et le token */
+  /** Stocke l’utilisateur et son token */
   private setCurrentUser(user: User & { token?: string }): void {
     this.currentUser.set(user);
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem(this.userKey, JSON.stringify(user));
     if (user.token) {
       localStorage.setItem(this.tokenKey, user.token);
     }
+  }
+
+  /** Vide la session */
+  private clearSession(): void {
+    this.currentUser.set(null);
+    localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.tokenKey);
   }
 
   /** Récupère le token */
@@ -112,7 +124,7 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // Ajouter un getter public
+  /** Récupère tous les utilisateurs mockés */
   getUsers(): User[] {
     return this.users;
   }

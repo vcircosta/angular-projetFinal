@@ -1,8 +1,9 @@
-<nav class="navbar">
-    <a routerLink="/reservations">Reservations</a>
+<nav>
+    <a routerLink="/home">Home</a>
+    <a routerLink="/profile">Profile</a>
 
-    <a *ngIf="!auth.currentUser()" routerLink="/login">Login</a>
-    <a *ngIf="!auth.currentUser()" routerLink="/register">Register</a>
+    <!-- Seulement pour les admins -->
+    <a *ngIf="isAdmin()" routerLink="/admin">Admin</a>
 
-    <button *ngIf="auth.currentUser()" (click)="logout()">Logout</button>
+    <button (click)="logout()">Logout</button>
 </nav>

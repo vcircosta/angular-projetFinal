@@ -9,7 +9,8 @@ import { RegisterRequest } from '../../../core/models/user.model';
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './register.component.html'
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);

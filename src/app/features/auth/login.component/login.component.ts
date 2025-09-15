@@ -9,7 +9,8 @@ import { LoginRequest } from '../../../core/models/user.model';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
