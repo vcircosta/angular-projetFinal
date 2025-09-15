@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule, NgForOf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RandomUserService } from '../../../core/services/random-user.service/random-user.service';
 import { RandomUser } from '../../../core/models/randomuser.model';
@@ -11,7 +11,7 @@ export interface AppUser extends RandomUser {
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgForOf],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
 })
