@@ -9,16 +9,14 @@ import { User } from '../../../core/models/user.model';
 export class RoleBasedDirective {
     private authService = inject(AuthService);
 
-    /** rôle ou liste de rôles autorisés */
     @Input('appRole') allowedRoles!: ('user' | 'admin') | Array<'user' | 'admin'>;
 
     constructor(
-        private templateRef: TemplateRef<any>,
+        private templateRef: TemplateRef<unknown>,
         private viewContainer: ViewContainerRef
     ) {
-        // L'effet sera réexécuté automatiquement à chaque changement du signal currentUser
         effect(() => {
-            const user = this.authService.currentUser(); // signal
+            const user = this.authService.currentUser();
             this.updateView(user);
         });
     }

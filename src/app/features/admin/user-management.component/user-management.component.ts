@@ -37,13 +37,13 @@ export class UserManagementComponent implements OnInit {
       role: 'admin'
     };
 
-    const registeredUsers: AppUser[] = JSON.parse(localStorage.getItem('users') || '[]')
-      .map((u: any) => ({
+    const registeredUsers: AppUser[] = (JSON.parse(localStorage.getItem('users') || '[]') as AppUser[])
+      .map(u => ({
         id: u.id.toString(),
         name: u.name,
         email: u.email,
         location: 'Registered',
-        role: u.role as 'user' | 'admin'
+        role: u.role
       }));
 
     const localUsers: AppUser[] = JSON.parse(localStorage.getItem('localUsers') || '[]');
@@ -108,19 +108,14 @@ export class UserManagementComponent implements OnInit {
   }
 
   private saveRegisteredUser(user: AppUser) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    users.push({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role
-    });
+    const users: AppUser[] = JSON.parse(localStorage.getItem('users') || '[]');
+    users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
   }
 
   private removeRegisteredUser(id: string) {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const updated = users.filter((u: any) => u.id.toString() !== id.toString());
+    const users: AppUser[] = JSON.parse(localStorage.getItem('users') || '[]');
+    const updated = users.filter(u => u.id.toString() !== id.toString());
     localStorage.setItem('users', JSON.stringify(updated));
   }
 }
