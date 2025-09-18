@@ -17,6 +17,9 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  errorMessage = '';
+  loading = false;
+
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -25,7 +28,9 @@ export class LoginComponent {
   onSubmit() {
     if (this.form.invalid) return;
 
-    // Déclarer l'objet credentials ici
+    this.errorMessage = '';
+    this.loading = true;
+
     const credentials: LoginRequest = {
       email: this.form.value.email!,
       password: this.form.value.password!
@@ -33,10 +38,15 @@ export class LoginComponent {
 
     this.authService.login(credentials).subscribe({
       next: user => {
-        console.log('Connecté :', user);
         this.router.navigate(['/reservations']);
       },
-      error: err => console.error(err)
+      error: err => {
+        this.errorMessage = err.message || 'Email ou mot de passe invalide';
+        this.loading = false;  // ✅ libère le bouton en cas d'erreur
+      },
+      complete: () => {
+        this.loading = false;  // ✅ libère le bouton si succès
+      }
     });
   }
 }

@@ -1,18 +1,12 @@
-/* Conteneur global centré */
 .page-center {
     display: flex;
     justify-content: center;
-    /* centre horizontalement */
     align-items: center;
-    /* centre verticalement */
     min-height: 100vh;
-    /* prend toute la hauteur de la fenêtre */
     background-color: #f0f2f5;
-    /* léger fond */
     padding: 1rem;
 }
 
-/* Formulaire */
 .auth-form {
     width: 100%;
     max-width: 400px;
@@ -24,10 +18,8 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     text-align: center;
-    /* titre centré */
 }
 
-/* Titres centrés */
 .auth-form h2 {
     margin-bottom: 2rem;
     font-size: 1.8rem;
@@ -35,22 +27,18 @@
     color: #007bff;
 }
 
-/* Conteneurs de champ */
 .auth-form div {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     text-align: left;
 }
 
-/* Labels */
 .auth-form label {
     margin-bottom: 0.4rem;
     font-weight: 500;
     color: #333;
 }
 
-/* Inputs */
 .auth-form input {
     padding: 0.75rem 1rem;
     font-size: 1rem;
@@ -64,7 +52,14 @@
     border-color: #007bff;
 }
 
-/* Bouton */
+/* Message d'erreur */
+.error-message {
+    color: #d9534f;
+    font-size: 0.95rem;
+    margin: -0.5rem 0 0.5rem;
+    text-align: center;
+}
+
 .auth-form button {
     margin-top: 1rem;
     padding: 0.75rem;
@@ -88,7 +83,6 @@
     transform: translateY(-1px);
 }
 
-/* Responsive */
 @media (max-width: 480px) {
     .auth-form {
         padding: 1.5rem;

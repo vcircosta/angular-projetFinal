@@ -12,6 +12,11 @@
             <input type="password" formControlName="password" placeholder="Mot de passe" />
         </div>
 
-        <button type="submit" [disabled]="form.invalid">Se connecter</button>
+        <!-- Message d'erreur -->
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+        <button type="submit" [disabled]="form.invalid || loading">
+            {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
     </form>
 </div>

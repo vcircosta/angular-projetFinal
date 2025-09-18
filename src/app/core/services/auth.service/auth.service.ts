@@ -4,6 +4,8 @@ import { tap } from 'rxjs/operators';
 import { User, LoginRequest, RegisterRequest } from './../../models/user.model';
 import { ErrorService } from './../../../shared/services/error.services';
 
+type InternalUser = User & { password: string };
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private errorService = new ErrorService();
@@ -15,9 +17,10 @@ export class AuthService {
   private tokenKey = 'authToken';
   private userKey = 'currentUser';
 
-  private users: User[] = [
-    { id: 1, name: 'Admin User', email: 'admin@example.com', role: 'admin' },
-    { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user' },
+  // Utilisateurs mockés avec mot de passe
+  private users: InternalUser[] = [
+    { id: 1, name: 'Admin User', email: 'admin@example.com', role: 'admin', password: 'admin123' },
+    { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user', password: 'user123' },
   ];
 
   constructor() {
@@ -31,7 +34,6 @@ export class AuthService {
 
     try {
       const parsed: User = JSON.parse(savedUser);
-      // On ne garde que si l'utilisateur a un rôle valide
       if (parsed && (parsed.role === 'admin' || parsed.role === 'user')) {
         this.currentUser.set(parsed);
       } else {
@@ -42,12 +44,17 @@ export class AuthService {
     }
   }
 
-  /** Connexion mockée */
   login(credentials: LoginRequest): Observable<User> {
     const user = this.users.find(u => u.email === credentials.email);
     if (!user) {
       this.errorService.showError('Utilisateur non trouvé');
       return throwError(() => new Error('Utilisateur non trouvé'));
+    }
+
+    // Vérification du mot de passe
+    if (user.password !== credentials.password) {
+      this.errorService.showError('Mot de passe incorrect');
+      return throwError(() => new Error('Mot de passe incorrect'));
     }
 
     const token = 'mock-token-' + user.id;
@@ -67,19 +74,22 @@ export class AuthService {
       return throwError(() => new Error('Cet email est déjà utilisé'));
     }
 
-    const newUser: User = {
+    const newUser: InternalUser = {
       id: this.users.length + 1,
       name: data.name,
       email: data.email,
-      role: 'user'
+      role: 'user',
+      password: data.password, // on stocke le mdp
     };
 
     this.users.push(newUser);
+
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     storedUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(storedUsers));
 
-    const userWithToken = { ...newUser, token: 'mock-token-' + newUser.id };
+    const { password, ...userWithoutPassword } = newUser;
+    const userWithToken = { ...userWithoutPassword, token: 'mock-token-' + newUser.id };
 
     return of(userWithToken).pipe(
       delay(500),
@@ -124,8 +134,8 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  /** Récupère tous les utilisateurs mockés */
+  /** Récupère tous les utilisateurs mockés (sans mdp) */
   getUsers(): User[] {
-    return this.users;
+    return this.users.map(({ password, ...user }) => user);
   }
 }
