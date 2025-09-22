@@ -18,7 +18,7 @@ describe('RoleLabelPipe', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [TestHostComponent] // standalone -> import
+            imports: [TestHostComponent]
         });
 
         fixture = TestBed.createComponent(TestHostComponent);

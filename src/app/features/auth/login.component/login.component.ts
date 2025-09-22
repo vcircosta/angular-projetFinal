@@ -42,10 +42,10 @@ export class LoginComponent {
       },
       error: err => {
         this.errorMessage = err.message || 'Email ou mot de passe invalide';
-        this.loading = false;  // ✅ libère le bouton en cas d'erreur
+        this.loading = false;
       },
       complete: () => {
-        this.loading = false;  // ✅ libère le bouton si succès
+        this.loading = false;
       }
     });
   }

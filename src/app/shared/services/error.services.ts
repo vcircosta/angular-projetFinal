@@ -24,7 +24,6 @@ export class ErrorService {
 
     this.errors.update(errors => [...errors, error]);
 
-    // Auto-remove après 5 secondes
     setTimeout(() => {
       this.removeError(error.id);
     }, 5000);
@@ -42,7 +41,6 @@ export class ErrorService {
 
     this.errors.update(errors => [...errors, warning]);
 
-    // Auto-remove après 3 secondes
     setTimeout(() => {
       this.removeError(warning.id);
     }, 3000);
@@ -60,7 +58,6 @@ export class ErrorService {
 
     this.errors.update(errors => [...errors, info]);
 
-    // Auto-remove après 2 secondes
     setTimeout(() => {
       this.removeError(info.id);
     }, 2000);
@@ -80,7 +77,6 @@ export class ErrorService {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
-  // Méthodes utilitaires pour les erreurs HTTP courantes
   handleHttpError(status: number, message?: string): void {
     switch (status) {
       case 400:

@@ -17,7 +17,6 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Déclaration du FormGroup
   form = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -28,7 +27,6 @@ export class RegisterComponent {
   onSubmit() {
     if (this.form.invalid) return;
 
-    // Création de l'objet RegisterRequest
     const data: RegisterRequest = {
       name: this.form.value.name!,
       email: this.form.value.email!,

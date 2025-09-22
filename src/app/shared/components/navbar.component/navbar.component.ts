@@ -14,7 +14,6 @@ export class NavbarComponent {
   auth = inject(AuthService);
   private router = inject(Router);
 
-  // computed signal pour vérifier le rôle
   isAdmin = computed(() => this.auth.currentUser()?.role === 'admin');
 
   logout() {

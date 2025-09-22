@@ -38,7 +38,6 @@ describe('UserManagementComponent - Intégration', () => {
     });
 
     it('devrait supprimer un utilisateur', fakeAsync(() => {
-        // Ajouter un utilisateur d’abord
         component.addUser();
         fixture.detectChanges();
         tick();

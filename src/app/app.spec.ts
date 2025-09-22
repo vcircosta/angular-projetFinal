@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, RouterTestingModule], // <-- remplace RouterOutlet par RouterTestingModule
+      imports: [AppComponent, RouterTestingModule],
     }).compileComponents();
   });
 

@@ -20,7 +20,8 @@ export class RandomUserService {
                 id: `${index + 1}`,
                 name: `${u.name.first} ${u.name.last}`,
                 email: u.email,
-                location: `${u.location.city}, ${u.location.country}`
+                location: `${u.location.city}, ${u.location.country}`,
+                role: 'user'
             })))
         );
     }

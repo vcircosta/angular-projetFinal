@@ -29,11 +29,11 @@ describe('ComputerManagementComponent', () => {
         mockAuthService = { getUsers: () => mockUsers };
         mockReservationsService = {
             loadReservations: () => { },
-            reservations: signal([...mockReservations]), // ✅ signal avec le bon type
+            reservations: signal([...mockReservations]),
         };
 
         await TestBed.configureTestingModule({
-            imports: [CommonModule, ComputerManagementComponent], // ✅ importer le composant
+            imports: [CommonModule, ComputerManagementComponent],
             providers: [{ provide: AuthService, useValue: mockAuthService },
             { provide: ReservationsService, useValue: mockReservationsService }]
         }).compileComponents();

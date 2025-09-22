@@ -10,14 +10,12 @@ type InternalUser = User & { password: string };
 export class AuthService {
   private errorService = new ErrorService();
 
-  // utilisateur connecté
   currentUser = signal<User | null>(null);
   readonly currentUser$ = this.currentUser.asReadonly();
 
   private tokenKey = 'authToken';
   private userKey = 'currentUser';
 
-  // Utilisateurs mockés avec mot de passe
   private users: InternalUser[] = [
     { id: 1, name: 'Admin User', email: 'admin@example.com', role: 'admin', password: 'admin123' },
     { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user', password: 'user123' },
@@ -27,7 +25,6 @@ export class AuthService {
     this.restoreSession();
   }
 
-  /** Recharge un utilisateur depuis le localStorage */
   private restoreSession(): void {
     const savedUser = localStorage.getItem(this.userKey);
     if (!savedUser) return;
@@ -51,7 +48,6 @@ export class AuthService {
       return throwError(() => new Error('Utilisateur non trouvé'));
     }
 
-    // Vérification du mot de passe
     if (user.password !== credentials.password) {
       this.errorService.showError('Mot de passe incorrect');
       return throwError(() => new Error('Mot de passe incorrect'));
@@ -66,7 +62,6 @@ export class AuthService {
     );
   }
 
-  /** Inscription mockée */
   register(data: RegisterRequest): Observable<User> {
     const existingUser = this.users.find(u => u.email === data.email);
     if (existingUser) {
@@ -79,7 +74,7 @@ export class AuthService {
       name: data.name,
       email: data.email,
       role: 'user',
-      password: data.password, // on stocke le mdp
+      password: data.password,
     };
 
     this.users.push(newUser);
@@ -97,23 +92,19 @@ export class AuthService {
     );
   }
 
-  /** Vérifie si connecté */
   isLoggedIn(): boolean {
     return this.currentUser() !== null;
   }
 
-  /** Vérifie si admin */
   isAdmin(): boolean {
     return this.currentUser()?.role === 'admin';
   }
 
-  /** Déconnexion */
   logout(): void {
     this.clearSession();
     this.errorService.showInfo('Déconnexion réussie');
   }
 
-  /** Stocke l’utilisateur et son token */
   private setCurrentUser(user: User & { token?: string }): void {
     this.currentUser.set(user);
     localStorage.setItem(this.userKey, JSON.stringify(user));
@@ -122,19 +113,16 @@ export class AuthService {
     }
   }
 
-  /** Vide la session */
   private clearSession(): void {
     this.currentUser.set(null);
     localStorage.removeItem(this.userKey);
     localStorage.removeItem(this.tokenKey);
   }
 
-  /** Récupère le token */
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  /** Récupère tous les utilisateurs mockés (sans mdp) */
   getUsers(): User[] {
     return this.users.map(({ password, ...user }) => user);
   }
