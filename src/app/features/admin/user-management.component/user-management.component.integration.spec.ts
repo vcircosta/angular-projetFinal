@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { UserManagementComponent, AppUser } from './user-management.component';
+import { UserManagementComponent } from './user-management.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { RandomUserService } from '../../../core/services/random-user.service/random-user.service';

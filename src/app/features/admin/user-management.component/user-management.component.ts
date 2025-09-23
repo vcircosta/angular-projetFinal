@@ -84,7 +84,7 @@ export class UserManagementComponent implements OnInit {
           .map(u => ({
             ...u,
             id: `random-${u.id}`,
-            role: 'user' as 'user'
+            role: 'user' as const
           }))
           .filter(u => !currentUsers.some(existing => existing.id === u.id));
 

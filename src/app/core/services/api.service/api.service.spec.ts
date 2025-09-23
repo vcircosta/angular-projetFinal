@@ -9,7 +9,6 @@ describe('ApiService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [ApiService],
         });
 
         service = TestBed.inject(ApiService);
@@ -17,13 +16,13 @@ describe('ApiService', () => {
     });
 
     afterEach(() => {
-        httpMock.verify(); // Vérifie qu’aucune requête en attente
+        httpMock.verify();
     });
 
     it('✅ doit faire un GET avec paramètres', () => {
         const mockData = { id: 1, name: 'Test' };
 
-        service.get('/items', { page: 1 }).subscribe((data) => {
+        service.get<typeof mockData>('/items', { page: 1 }).subscribe((data) => {
             expect(data).toEqual(mockData);
         });
 
@@ -36,7 +35,7 @@ describe('ApiService', () => {
         const mockData = { success: true };
         const body = { name: 'New Item' };
 
-        service.post('/items', body).subscribe((data) => {
+        service.post<typeof mockData>('/items', body).subscribe((data) => {
             expect(data).toEqual(mockData);
         });
 
@@ -50,7 +49,7 @@ describe('ApiService', () => {
         const mockData = { success: true };
         const body = { name: 'Updated Item' };
 
-        service.put('/items/1', body).subscribe((data) => {
+        service.put<typeof mockData>('/items/1', body).subscribe((data) => {
             expect(data).toEqual(mockData);
         });
 
@@ -63,7 +62,7 @@ describe('ApiService', () => {
     it('🗑️ doit faire un DELETE', () => {
         const mockData = { success: true };
 
-        service.delete('/items/1').subscribe((data) => {
+        service.delete<typeof mockData>('/items/1').subscribe((data) => {
             expect(data).toEqual(mockData);
         });
 

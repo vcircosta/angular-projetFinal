@@ -1,11 +1,8 @@
-import { CanActivateFn, Router, UrlTree, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service/auth.service';
 
-export const adminGuard: CanActivateFn = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-): boolean | UrlTree => {
+export const adminGuard: CanActivateFn = (): boolean | UrlTree => {
     const auth = inject(AuthService);
     const router = inject(Router);
 

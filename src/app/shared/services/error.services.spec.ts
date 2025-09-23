@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ErrorService, ErrorNotification } from './error.services';
+import { ErrorService } from './error.services';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('ErrorService', () => {
@@ -73,7 +73,7 @@ describe('ErrorService', () => {
         expect(service.errors$()[1].message).toBe('Session expirée. Veuillez vous reconnecter.');
 
         service.handleHttpError(403);
-        expect(service.errors$()[2].message).toBe("Accès refusé. Vous n'avez pas les permissions nécessaires.");
+        expect(service.errors$()[2].message).toBe('Accès refusé. Vous n\'avez pas les permissions nécessaires.');
 
         service.handleHttpError(404);
         expect(service.errors$()[3].message).toBe('Ressource non trouvée');
@@ -87,7 +87,7 @@ describe('ErrorService', () => {
 
         // test fallback sans message
         service.handleHttpError(999);
-        expect(service.errors$()[6].message).toBe("Erreur 999: Une erreur inattendue s'est produite.");
+        expect(service.errors$()[6].message).toBe('Erreur 999: Une erreur inattendue s\'est produite.');
 
         tick(5000);
         expect(service.errors$().length).toBe(0);

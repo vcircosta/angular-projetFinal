@@ -9,5 +9,5 @@ import { NgIf } from '@angular/common';
   styleUrls: ['./loading-spinner.component.scss']
 })
 export class LoadingSpinnerComponent {
-  @Input() loading: boolean = true;
+  @Input() loading = true;
 }

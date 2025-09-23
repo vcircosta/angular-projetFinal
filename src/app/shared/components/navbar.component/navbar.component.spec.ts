@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavbarComponent } from './navbar.component';
 import { AuthService } from '../../../core/services/auth.service/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
 
 describe('NavbarComponent', () => {
     let component: NavbarComponent;

@@ -83,12 +83,20 @@ export class AuthService {
     storedUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(storedUsers));
 
-    const { password, ...userWithoutPassword } = newUser;
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    const { password: unused, ...userWithoutPassword } = newUser;
     const userWithToken = { ...userWithoutPassword, token: 'mock-token-' + newUser.id };
 
     return of(userWithToken).pipe(
       delay(500),
       tap(u => this.setCurrentUser(u))
+    );
+  }
+
+  getUsers(): User[] {
+    return this.users.map(
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+      ({ password: unused, ...user }) => user
     );
   }
 
@@ -121,9 +129,5 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
-  }
-
-  getUsers(): User[] {
-    return this.users.map(({ password, ...user }) => user);
   }
 }

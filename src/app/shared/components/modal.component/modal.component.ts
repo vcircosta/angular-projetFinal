@@ -9,7 +9,7 @@ import { NgIf } from '@angular/common';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  @Input() visible: boolean = false;
+  @Input() visible = false;
   @Output() closed = new EventEmitter<void>();
 
   close() {

@@ -19,7 +19,7 @@ describe('authInterceptor', () => {
         authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     });
 
-    function runInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) {
+    function runInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
         return TestBed.runInInjectionContext(() =>
             authInterceptor(request, next)
         );
@@ -32,7 +32,7 @@ describe('authInterceptor', () => {
         const req = new HttpRequest('GET', '/api/test');
         const next: HttpHandlerFn = (request) => {
             expect(request.headers.get('Authorization')).toBe(`Bearer ${fakeToken}`);
-            return of({} as HttpEvent<any>);
+            return of({} as HttpEvent<unknown>);
         };
 
         runInterceptor(req, next).subscribe(() => done());
@@ -44,7 +44,7 @@ describe('authInterceptor', () => {
         const req = new HttpRequest('GET', '/api/test');
         const next: HttpHandlerFn = (request) => {
             expect(request.headers.has('Authorization')).toBeFalse();
-            return of({} as HttpEvent<any>);
+            return of({} as HttpEvent<unknown>);
         };
 
         runInterceptor(req, next).subscribe(() => done());

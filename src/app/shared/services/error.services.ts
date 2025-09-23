@@ -86,7 +86,7 @@ export class ErrorService {
         this.showError('Session expirée. Veuillez vous reconnecter.');
         break;
       case 403:
-        this.showError("Accès refusé. Vous n'avez pas les permissions nécessaires.");
+        this.showError('Accès refusé. Vous n\'avez pas les permissions nécessaires.');
         break;
       case 404:
         this.showError('Ressource non trouvée');

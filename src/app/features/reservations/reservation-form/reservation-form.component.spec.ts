@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ReservationFormComponent } from './reservation-form.component';
 import { ReservationsService } from '../../../core/services/reservations.service/reservations.service';
 import { FormBuilder } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 describe('ReservationFormComponent', () => {
     let component: ReservationFormComponent;

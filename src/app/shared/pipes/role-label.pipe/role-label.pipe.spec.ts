@@ -4,7 +4,7 @@ import { RoleLabelPipe } from './role-label.pipe';
 import { By } from '@angular/platform-browser';
 
 @Component({
-    template: `<p>{{ role | roleLabel }}</p>`,
+    template: '<p>{{ role | roleLabel }}</p>',
     standalone: true,
     imports: [RoleLabelPipe]
 })

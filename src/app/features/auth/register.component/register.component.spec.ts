@@ -3,13 +3,12 @@ import { RegisterComponent } from './register.component';
 import { AuthService } from '../../../core/services/auth.service/auth.service';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;
     let fixture: ComponentFixture<RegisterComponent>;
     let authService: jasmine.SpyObj<AuthService>;
-    let router: jasmine.SpyObj<Router>;
 
     beforeEach(() => {
         const authSpy = jasmine.createSpyObj('AuthService', ['register']);
@@ -26,7 +25,6 @@ describe('RegisterComponent', () => {
         fixture = TestBed.createComponent(RegisterComponent);
         component = fixture.componentInstance;
         authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-        router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     });
 
     it('✅ devrait créer le composant', () => {

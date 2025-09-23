@@ -37,7 +37,7 @@ export class LoginComponent {
     };
 
     this.authService.login(credentials).subscribe({
-      next: user => {
+      next: () => {
         this.router.navigate(['/reservations']);
       },
       error: err => {

@@ -6,9 +6,9 @@ export class ApiService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = '/api';
 
-    get<T>(url: string, params?: Record<string, any>) {
+    get<T>(url: string, params?: Record<string, string | number | boolean>) {
         return this.http.get<T>(this.baseUrl + url, {
-            params: params ? new HttpParams({ fromObject: params }) : undefined
+            params: params ? new HttpParams({ fromObject: params as Record<string, string> }) : undefined,
         });
     }
 

@@ -28,14 +28,19 @@ describe('ComputerManagementComponent', () => {
     beforeEach(async () => {
         mockAuthService = { getUsers: () => mockUsers };
         mockReservationsService = {
-            loadReservations: () => { },
+            // utiliser un spy Jasmine au lieu d'une fonction vide
+            loadReservations: jasmine.createSpy('loadReservations').and.callFake(() => {
+                // Optionnel : tu peux simuler un comportement si nécessaire
+            }),
             reservations: signal([...mockReservations]),
         };
 
         await TestBed.configureTestingModule({
             imports: [CommonModule, ComputerManagementComponent],
-            providers: [{ provide: AuthService, useValue: mockAuthService },
-            { provide: ReservationsService, useValue: mockReservationsService }]
+            providers: [
+                { provide: AuthService, useValue: mockAuthService },
+                { provide: ReservationsService, useValue: mockReservationsService }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ComputerManagementComponent);

@@ -6,11 +6,11 @@ import { By } from '@angular/platform-browser';
 @Component({
     selector: 'app-test-host',
     standalone: true,
-    template: `<p [appHighlight]="color">Text</p>`,
+    template: '<p [appHighlight]="color">Text</p>',
     imports: [HighlightDirective] // on importe la directive ici
 })
 class TestHostComponent {
-    color: string = 'yellow';
+    color = 'yellow';
 }
 
 describe('HighlightDirective', () => {

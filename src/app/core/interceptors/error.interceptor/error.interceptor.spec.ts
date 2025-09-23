@@ -19,7 +19,7 @@ describe('errorInterceptor', () => {
         errorService = TestBed.inject(ErrorService) as jasmine.SpyObj<ErrorService>;
     });
 
-    function runInterceptor(request: HttpRequest<any>, next: HttpHandlerFn) {
+    function runInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
         return TestBed.runInInjectionContext(() =>
             errorInterceptor(request, next)
         );
@@ -29,7 +29,7 @@ describe('errorInterceptor', () => {
         const req = new HttpRequest('GET', '/api/test');
         const next: HttpHandlerFn = (request) => {
             expect(request).toBe(req);
-            return of({} as HttpEvent<any>);
+            return of({} as HttpEvent<unknown>);
         };
 
         runInterceptor(req, next).subscribe({

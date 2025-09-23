@@ -35,8 +35,7 @@ export class RegisterComponent {
     };
 
     this.authService.register(data).subscribe({
-      next: user => {
-        console.log('Inscrit :', user);
+      next: () => {
         this.router.navigate(['/reservations']);
       },
       error: err => console.error(err)

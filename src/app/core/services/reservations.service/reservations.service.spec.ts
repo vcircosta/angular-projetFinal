@@ -1,6 +1,7 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReservationsService } from './reservations.service';
 import { ErrorService } from '../../../shared/services/error.services';
+import { Reservation } from '../../models/reservation.model';
 
 describe('ReservationsService', () => {
     let service: ReservationsService;
@@ -8,7 +9,7 @@ describe('ReservationsService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [ReservationsService, ErrorService]
+            providers: [ReservationsService, ErrorService],
         });
 
         service = TestBed.inject(ReservationsService);
@@ -27,24 +28,24 @@ describe('ReservationsService', () => {
     it('devrait ajouter une nouvelle réservation', fakeAsync(() => {
         service.loadReservations();
 
-        const newRes = {
+        const newRes: Partial<Reservation> = {
             computerId: 103,
             computerName: 'PC-103',
             userId: 1,
             date: '2025-09-06',
             duration: 2,
-            location: 'Room C'
+            location: 'Room C',
         };
 
-        let addedRes: any;
-        service.addReservation(newRes).subscribe(res => addedRes = res);
+        let addedRes: Reservation | undefined;
+        service.addReservation(newRes).subscribe((res) => (addedRes = res));
 
-        tick(300); // avance le temps pour simuler le delay
+        tick(300);
         const allReservations = service.reservations();
 
         expect(addedRes).toBeDefined();
-        expect(addedRes.id).toBeDefined();
-        expect(allReservations.some(r => r.id === addedRes.id)).toBeTrue();
+        expect(addedRes?.id).toBeDefined();
+        expect(allReservations.some((r) => r.id === addedRes?.id)).toBeTrue();
     }));
 
     it('devrait supprimer une réservation existante', fakeAsync(() => {
@@ -52,25 +53,26 @@ describe('ReservationsService', () => {
         const firstId = service.reservations()[0].id;
 
         let deleted = false;
-        service.deleteReservation(firstId).subscribe(() => deleted = true);
+        service.deleteReservation(firstId).subscribe(() => (deleted = true));
 
         tick(300);
         expect(deleted).toBeTrue();
-        expect(service.reservations().find(r => r.id === firstId)).toBeUndefined();
+        expect(service.reservations().find((r) => r.id === firstId)).toBeUndefined();
     }));
 
     it('devrait afficher une erreur si la réservation à supprimer n’existe pas', fakeAsync(() => {
         spyOn(errorService, 'showError');
 
-        let error: any;
+        let error: Error | undefined;
         service.deleteReservation(999).subscribe({
-            next: () => { },
-            error: (err) => error = err
+            next: () => void 0,
+            error: (err) => (error = err),
         });
 
         tick(300);
         expect(error).toBeDefined();
-        expect(error.message).toBe('Réservation non trouvée');
+        expect(error?.message).toBe('Réservation non trouvée');
         expect(errorService.showError).toHaveBeenCalledWith('Réservation non trouvée');
     }));
-});
+}
+);

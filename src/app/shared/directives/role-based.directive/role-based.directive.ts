@@ -7,14 +7,13 @@ import { User } from '../../../core/models/user.model';
     standalone: true
 })
 export class RoleBasedDirective {
-    private authService = inject(AuthService);
+    private readonly authService = inject(AuthService);
+    private readonly templateRef = inject(TemplateRef<unknown>);
+    private readonly viewContainer = inject(ViewContainerRef);
 
-    @Input('appRole') allowedRoles!: ('user' | 'admin') | Array<'user' | 'admin'>;
+    @Input('appRole') allowedRoles!: ('user' | 'admin') | ('user' | 'admin')[];
 
-    constructor(
-        private templateRef: TemplateRef<unknown>,
-        private viewContainer: ViewContainerRef
-    ) {
+    constructor() {
         effect(() => {
             const user = this.authService.currentUser();
             this.updateView(user);

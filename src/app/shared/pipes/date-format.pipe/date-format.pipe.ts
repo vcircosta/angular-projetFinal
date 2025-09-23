@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     standalone: true
 })
 export class DateFormatPipe implements PipeTransform {
-    transform(value: string | Date, format: string = 'shortDate'): string {
+    transform(value: string | Date): string {
         if (!value) return '';
         const date = typeof value === 'string' ? new Date(value) : value;
         return date.toLocaleDateString('fr-FR');

@@ -1,12 +1,12 @@
-import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, inject } from '@angular/core';
 
 @Directive({
     selector: '[appHighlight]',
     standalone: true
 })
 export class HighlightDirective implements OnChanges {
-    @Input() appHighlight: string = 'yellow';
-    constructor(private el: ElementRef<HTMLElement>) { }
+    @Input() appHighlight = 'yellow';
+    private el = inject(ElementRef<HTMLElement>);
 
     ngOnChanges() {
         this.el.nativeElement.style.backgroundColor = this.appHighlight;

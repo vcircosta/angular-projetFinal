@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ADMIN_ROUTES } from './admin.routes';
 import { AdminDashboardComponent } from '../admin-dashboard.component/admin-dashboard.component';
@@ -7,14 +6,10 @@ import { UserManagementComponent } from '../user-management.component/user-manag
 import { ComputerManagementComponent } from '../computer-management.component/computer-management.component';
 
 describe('ADMIN_ROUTES', () => {
-    let router: Router;
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule.withRoutes(ADMIN_ROUTES)]
         });
-
-        router = TestBed.inject(Router);
     });
 
     it('✅ devrait avoir une route pour le dashboard admin', () => {

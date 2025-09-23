@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { ReservationListComponent } from './reservation-list.component';
 import { ReservationsService } from '../../../core/services/reservations.service/reservations.service';
 import { FormBuilder } from '@angular/forms';
-import { of } from 'rxjs';
-import { Reservation } from '../../../core/models/reservation.model';
 
 describe('ReservationListComponent', () => {
     let component: ReservationListComponent;
