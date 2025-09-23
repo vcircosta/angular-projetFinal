@@ -1,24 +1,19 @@
 <h2 class="title">Reservations</h2>
 
-<!-- Formulaire de création -->
 <form [formGroup]="form" (ngSubmit)="addReservation()" class="form-container">
 
-    <!-- Liste déroulante des PC -->
     <select formControlName="computerId" class="input">
         <option value="" disabled selected>Sélectionnez un PC</option>
         <option *ngFor="let computer of computers" [value]="computer.id">{{ computer.name }}</option>
     </select>
 
-    <!-- Sélection de la salle -->
     <select formControlName="location" class="input">
         <option value="" disabled selected>Select Room</option>
         <option *ngFor="let room of rooms" [value]="room">{{ room }}</option>
     </select>
 
-    <!-- Sélection de la date -->
     <input formControlName="date" type="date" class="input" />
 
-    <!-- Durée en heures -->
     <div class="duration-container">
         <input formControlName="duration" type="number" min="1" class="input w-20" />
         <span>h</span>
@@ -27,7 +22,6 @@
     <button type="submit" [disabled]="form.invalid" class="btn-add">Add</button>
 </form>
 
-<!-- Liste des réservations -->
 <ul class="reservations-list">
     <li *ngFor="let reservation of reservations()" class="reservation-item">
         <div>
