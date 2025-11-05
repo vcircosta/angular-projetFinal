@@ -1,13 +1,14 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/vcircosta/GO-EXO/internal/checker"
 )
 
 func main() {
-
 	targets := []string{
 		"https://www.google.com",
 		"https://www.notarealwebsite.abc",
@@ -38,18 +39,25 @@ func main() {
 		"https://www.gaming.forum/topic/strategy",
 	}
 
-	results := make(chan checker.CheckResult)
+	var wg sync.WaitGroup
+	wg.Add(len(targets))
 
 	for _, url := range targets {
-		go checker.CheckURL(url, results)
+		go func(u string) {
+			defer wg.Done()
+			result := checker.CheckURL(u)
+			if result.Err != nil {
+				var unreachable *checker.UnreachableError
+				if errors.As(result.Err, &unreachable) {
+					fmt.Printf("%s est inaccessible: %v\n", unreachable.URL, unreachable.Err)
+				} else {
+					fmt.Printf("Erreur inconnue pour %s: %v\n", result.Target, result.Err)
+				}
+				fmt.Printf("KO %s : erreur - %v\n", result.Target, result.Err)
+			} else {
+				fmt.Printf("OK %s - %s\n", result.Target, result.Status)
+			}
+		}(url)
 	}
-
-	for range targets {
-		result := <-results
-		if result.Err != nil {
-			fmt.Printf("KO %s : erreur - %v\n", result.Target, result.Err)
-		} else {
-			fmt.Printf("OK %s - %s\n", result.Target, result.Status)
-		}
-	}
+	wg.Wait()
 }
