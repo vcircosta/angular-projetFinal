@@ -1,0 +1,15 @@
+<nav class="p-4 bg-gray-800 text-white flex gap-4">
+  <a routerLink="/reservations">Reservations</a>
+  <a routerLink="/admin">Admin</a>
+
+  <!-- Si l'utilisateur n'est pas connecté -->
+  <a *ngIf="!auth.currentUser()" routerLink="/auth/login">Login</a>
+  <a *ngIf="!auth.currentUser()" routerLink="/auth/register">Register</a>
+
+  <!-- Si l'utilisateur est connecté -->
+  <button *ngIf="auth.currentUser()" (click)="logout()">Logout</button>
+</nav>
+
+<main class="p-6">
+  <router-outlet></router-outlet>
+</main>

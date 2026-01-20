@@ -1,0 +1,27 @@
+<div class="page-center">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+        <h2>Inscription</h2>
+
+        <div>
+            <label for="name">Nom</label>
+            <input id="name" formControlName="name" placeholder="Nom" />
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="Email" />
+        </div>
+
+        <div>
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" formControlName="password" placeholder="Mot de passe" />
+        </div>
+
+        <div>
+            <label for="confirmPassword">Confirmer le mot de passe</label>
+            <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Confirmation" />
+        </div>
+
+        <button type="submit" [disabled]="form.invalid">S'inscrire</button>
+    </form>
+</div>

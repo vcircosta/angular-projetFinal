@@ -1,0 +1,112 @@
+.title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+    text-align: center;
+}
+
+/* Tableau principal */
+.computers-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Entête */
+.computers-table thead {
+    background-color: #2563eb;
+    /* bleu plus vif */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.computers-table th,
+.computers-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* Lignes du tableau */
+.computers-table tbody tr:nth-child(even) {
+    background-color: #f3f4f6;
+}
+
+.computers-table tbody tr:hover {
+    background-color: #dbeafe;
+    /* bleu clair au hover */
+}
+
+/* Colonnes actions centrées */
+.computers-table td:nth-child(5),
+.computers-table td:nth-child(6) {
+    text-align: center;
+}
+
+/* Boutons modernes */
+.btn-delete-reservation,
+.btn-delete-all {
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: all 0.2s ease;
+}
+
+/* Bouton delete reservation */
+.btn-delete-reservation {
+    background-color: #f59e0b;
+    /* orange */
+    color: #fff;
+}
+
+.btn-delete-reservation:hover {
+    background-color: #d97706;
+    transform: translateY(-2px);
+}
+
+/* Bouton delete all */
+.btn-delete-all {
+    background-color: #2563eb;
+    /* bleu */
+    color: #fff;
+}
+
+.btn-delete-all:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Icônes facultatives dans les boutons */
+.btn-delete-reservation::before,
+.btn-delete-all::before {
+    content: '🗑️';
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+
+    .computers-table th,
+    .computers-table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-delete-reservation,
+    .btn-delete-all {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+}

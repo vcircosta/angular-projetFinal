@@ -1,0 +1,9 @@
+<div *ngIf="reservation() as res; else loading" class="reservation-detail">
+    <h2 class="title">Reservation Detail</h2>
+    <p><strong>Computer:</strong> {{ res.computerName }}</p>
+    <p><strong>Date:</strong> {{ res.date }}</p>
+</div>
+
+<ng-template #loading>
+    <p class="loading">Loading reservation...</p>
+</ng-template>

@@ -1,0 +1,21 @@
+<div class="page-center">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+        <h2>Se connecter</h2>
+
+        <div>
+            <label for="email">Email</label>
+            <input id="email" formControlName="email" type="email" placeholder="Email" />
+        </div>
+
+        <div>
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" formControlName="password" placeholder="Mot de passe" />
+        </div>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+        <button type="submit" [disabled]="form.invalid || loading">
+            {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
+    </form>
+</div>

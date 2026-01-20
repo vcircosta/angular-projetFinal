@@ -1,0 +1,9 @@
+<nav class="navbar">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/profile">Profile</a>
+
+    <!-- Seulement pour les admins -->
+    <a *ngIf="isAdmin()" routerLink="/admin">Admin</a>
+
+    <button (click)="logout()">Logout</button>
+</nav>

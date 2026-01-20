@@ -1,0 +1,138 @@
+/* Titre */
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
+    text-align: center;
+}
+
+/* Tableau des utilisateurs */
+.users-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95rem;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+
+    thead {
+        background-color: #2563eb;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    th,
+    td {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f3f4f6;
+    }
+
+    tbody tr:hover {
+        background-color: #dbeafe;
+    }
+
+    td:last-child {
+        text-align: center;
+    }
+}
+
+/* Formulaire d'ajout */
+.add-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    input,
+    select {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #2563eb;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+}
+
+/* Boutons */
+.btn-add {
+    background-color: #16a34a;
+    color: #fff;
+}
+
+.btn-add:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.btn-add:hover:not(:disabled) {
+    background-color: #15803d;
+    transform: translateY(-1px);
+}
+
+.btn-delete {
+    background-color: #dc2626;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+}
+
+.btn-delete:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.btn-reload {
+    background-color: #2563eb;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-reload:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .add-form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}

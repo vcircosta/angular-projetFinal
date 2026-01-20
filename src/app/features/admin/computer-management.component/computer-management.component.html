@@ -1,0 +1,47 @@
+<h3 class="title">Computer Management</h3>
+
+<table class="computers-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Reservation</th>
+            <th>Actions (Reservation)</th>
+            <th>Actions (Computer)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let computer of usedComputers">
+            <tr *ngFor="let res of getReservations(computer.id); let i = index">
+                <!-- Affichage ordinateur uniquement sur la première ligne -->
+                <td *ngIf="i === 0" [attr.rowspan]="getReservations(computer.id).length">{{ computer.id }}</td>
+                <td *ngIf="i === 0" [attr.rowspan]="getReservations(computer.id).length">{{ computer.name }}</td>
+                <td *ngIf="i === 0" [attr.rowspan]="getReservations(computer.id).length">{{ computer.location }}</td>
+
+                <!-- Réservation -->
+                <td>{{ res.id }} - {{ res.computerName }} ({{ res.date }}, {{ res.duration }}h, {{ res.location }})</td>
+
+                <!-- Bouton Delete Reservation -->
+                <td>
+                    <button class="btn-delete-reservation" (click)="deleteReservation(res.id)">
+                        Delete Reservation {{ res.id }}
+                    </button>
+                </td>
+
+                <!-- Bouton Delete All Reservations (première ligne seulement) -->
+                <td *ngIf="i === 0" [attr.rowspan]="getReservations(computer.id).length">
+                    <button class="btn-delete-all" (click)="deleteAllReservations(computer.id)">
+                        Delete All Reservations
+                    </button>
+                </td>
+            </tr>
+        </ng-container>
+        <!-- Message si aucune réservation -->
+        <tr *ngIf="usedComputers.length === 0">
+            <td colspan="6" style="text-align:center; font-style:italic; color:#6b7280">
+                No reservations available
+            </td>
+        </tr>
+    </tbody>
+</table>
