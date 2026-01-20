@@ -1,0 +1,117 @@
+/* 1. On cible le composant Angular lui-même pour le centrage */
+:host {
+    display: flex;
+    justify-content: center; /* Centrage horizontal */
+    align-items: center;     /* Centrage vertical */
+    min-height: 100vh;       /* Prend 100% de la hauteur de l'écran */
+    width: 100%;             /* Prend toute la largeur */
+    background-color: #f3f4f6;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    box-sizing: border-box;
+}
+
+/* 2. Le conteneur du formulaire (la carte blanche) */
+.login-container, .auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+                0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin: 1rem; /* Sécurité pour le mobile */
+}
+
+/* 3. Typographie et titres */
+h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #111827;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* 4. Champs de saisie et labels */
+.form-group, .form-group-last {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+
+input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* 5. Boutons et alertes */
+.btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s active, background 0.2s;
+    margin-top: 1rem;
+}
+
+.btn-blue { background-color: #2563eb; color: white; }
+.btn-blue:hover { background-color: #1d4ed8; }
+.btn-blue:disabled { background-color: #93c5fd; cursor: not-allowed; }
+
+.error-text {
+    color: #dc2626;
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    font-weight: 500;
+}
+
+.error-alert {
+    background-color: #fef2f2;
+    color: #991b1b;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+    border: 1px solid #fee2e2;
+}
+
+/* 6. Lien d'inscription */
+.footer-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.footer-text a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}

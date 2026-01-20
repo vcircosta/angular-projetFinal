@@ -1,0 +1,65 @@
+<div class="auth-container">
+  <h2>Créer un compte</h2>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+    
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur</label>
+      <input 
+        type="text" 
+        id="username" 
+        formControlName="username"
+        placeholder="Ex: JeanDupont"
+        [class.invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+      
+      @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+        <div class="error-text">Le nom d'utilisateur est requis (3 caractères min).</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="password"
+        placeholder="••••••••"
+        [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <div class="error-text">
+          @if (registerForm.get('password')?.errors?.['required']) { <span>Mot de passe requis.</span> }
+          @if (registerForm.get('password')?.errors?.['minlength']) { <span>6 caractères minimum.</span> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirmer le mot de passe</label>
+      <input 
+        type="password" 
+        id="confirmPassword" 
+        formControlName="confirmPassword"
+        placeholder="••••••••"
+        [class.invalid]="registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched">
+      
+      @if (registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched) {
+        <div class="error-text">Les mots de passe ne correspondent pas.</div>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-alert">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage() }}
+      </div>
+    }
+
+    <button type="submit" [disabled]="registerForm.invalid" class="btn btn-green">
+      S'inscrire gratuitement
+    </button>
+
+    <p class="footer-text">
+      Déjà inscrit ? <a routerLink="/login">Connectez-vous</a>
+    </p>
+  </form>
+</div>

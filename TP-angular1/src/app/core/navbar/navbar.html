@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <a routerLink="/">MonApp</a>
+  </div>
+
+  <div class="nav-links">
+    @if (!authService.isAuthenticated()) {
+      <a routerLink="/login" routerLinkActive="active" class="nav-item">Connexion</a>
+      <a routerLink="/register" routerLinkActive="active" class="btn-register">S'inscrire</a>
+    } 
+    @else {
+      <span class="user-welcome">Bonjour, <strong>{{ authService.currentUser()?.username }}</strong></span>
+      <button (click)="authService.logout()" class="btn-logout">Déconnexion</button>
+    }
+  </div>
+</nav>

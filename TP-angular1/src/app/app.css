@@ -1,0 +1,10 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.content-container {
+  /* On s'assure que le contenu commence sous la navbar */
+  min-height: calc(100vh - 70px); 
+}

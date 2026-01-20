@@ -1,0 +1,62 @@
+<div class="login-container">
+  <h2>Connexion</h2>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+    
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur</label>
+      <input 
+        type="text" 
+        id="username" 
+        formControlName="username"
+        placeholder="Entrez votre pseudo"
+        [class.input-error]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+      >
+      @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+        <div class="error-text" aria-live="polite">Le nom d'utilisateur est requis.</div>
+      }
+    </div>
+
+    <div class="form-group-last">
+      <label for="password">Mot de passe</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="password"
+        placeholder="••••••••"
+        [class.input-error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+      >
+      
+      @let passwordCtrl = loginForm.get('password');
+      @if (passwordCtrl?.invalid && (passwordCtrl?.dirty || passwordCtrl?.touched)) {
+        <div class="error-text" aria-live="polite">
+          @if (passwordCtrl?.errors?.['required']) { <span>Le mot de passe est requis.</span> }
+          @if (passwordCtrl?.errors?.['minlength']) { <span>Minimum 6 caractères.</span> }
+        </div>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-alert" aria-live="assertive">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <button 
+      type="submit" 
+      [disabled]="loginForm.invalid" 
+      class="btn btn-blue"
+    >
+      @if (loginForm.valid) {
+        Se connecter
+      } @else {
+        Formulaire incomplet
+      }
+    </button>
+
+    <p class="footer-text">
+      Pas de compte ? 
+      <a routerLink="/register" class="text-blue">Inscrivez-vous</a>
+    </p>
+  </form>
+</div>
