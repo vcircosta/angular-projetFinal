@@ -1,8 +1,26 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  
+  /* On déclare l'image deux fois */
+  background-image: 
+    url('../../../assets/thomas.JPG'), 
+    url('../../../assets/thomas.JPG');
+  
+  /* On définit la taille pour les deux images */
+  background-size: contain, contain; 
+  
+  /* On positionne la première à gauche et la deuxième à droite */
+  background-position: left center, right center; 
+  
+  /* On empêche la répétition pour les deux */
+  background-repeat: no-repeat, no-repeat;
+  
+  background-attachment: fixed;
+  background-color: #f5f7fa; 
+  
   padding-top: 50px;
+  width: 100%;
 }
 
 * {
