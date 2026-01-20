@@ -6,10 +6,8 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TodoService {
   private http = inject(HttpClient);
-  // L'URL est bien /tasks d'après tes logs NestJS
   private apiUrl = `${environment.apiUrl}/tasks`;
 
-  // Utilisons un nom au pluriel pour le signal pour plus de clarté
   todoList = signal<Todo[]>([]);
 
   getTodo() {
