@@ -1,9 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, signal, DestroyRef } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/auth/services/auth-service';
-import { Credentials } from '../../../core/auth/interface/credentials';
 import { Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +16,12 @@ export class Login {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  
-  // Utilisation de null pour un signal plus propre
-  errorMessage = signal<string | null>(null);
+  private destroyRef = inject(DestroyRef);
 
-  // Formulaire typé et non-nul
-  loginForm: FormGroup = this.fb.nonNullable.group({
+  errorMessage = signal<string | null>(null);
+  isLoading = signal<boolean>(false);
+
+  loginForm = this.fb.nonNullable.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
@@ -32,22 +32,36 @@ export class Login {
       return;
     }
 
-    const credentials: Credentials = this.loginForm.getRawValue();
-    this.errorMessage.set(null); // Reset de l'erreur
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
 
-    this.authService.login(credentials).subscribe({
-      next: () => {
-        this.router.navigate(['/welcome']);
-      },
-      error: (err) => {
-        // Gestion plus précise de l'erreur
-        if (err.status === 401) {
-          this.errorMessage.set('Identifiants incorrects.');
-        } else {
-          this.errorMessage.set('Erreur de connexion au serveur.');
+    const credentials = this.loginForm.getRawValue();
+
+    this.authService.login(credentials)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+          if (localStorage.getItem('auth_token')) {
+            this.router.navigate(['/todos']);
+          }
+        },
+        error: (err) => {
+          this.isLoading.set(false);
+          this.errorMessage.set('Erreur de connexion');
         }
-        console.error('Login failed', err);
-      }
-    });
+      });
+    }
+
+  private handleError(err: any) {
+    console.error('Détails de l\'erreur de connexion:', err);
+    
+    if (err.status === 0) {
+      this.errorMessage.set('Impossible de contacter le serveur.');
+    } else if (err.status === 401) {
+      this.errorMessage.set('Identifiants incorrects.');
+    } else {
+      this.errorMessage.set(err.error?.message || 'Une erreur inattendue est survenue.');
+    }
   }
 }

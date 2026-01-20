@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  standalone: true, // Toujours préciser standalone
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
@@ -19,7 +19,6 @@ export class Register {
 
   errorMessage = signal<string | null>(null);
 
-  // Utilisation de group() avec un validateur d'égalité personnalisé
   registerForm: FormGroup = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -28,7 +27,6 @@ export class Register {
     validators: this.passwordMatchValidator 
   });
 
-  // Validateur pour comparer Password et ConfirmPassword
   private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;

@@ -1,4 +1,12 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+app-todo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

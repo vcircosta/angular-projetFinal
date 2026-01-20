@@ -1,16 +1,14 @@
-/* 1. On cible le composant Angular lui-même pour le centrage */
 :host {
     display: flex;
-    justify-content: center; /* Centrage horizontal */
-    align-items: center;     /* Centrage vertical */
-    min-height: 100vh;       /* Prend 100% de la hauteur de l'écran */
-    width: 100%;             /* Prend toute la largeur */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
     background-color: #f3f4f6;
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     box-sizing: border-box;
 }
 
-/* 2. Le conteneur du formulaire (la carte blanche) */
 .login-container, .auth-container {
     width: 100%;
     max-width: 400px;
@@ -20,10 +18,9 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
                 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    margin: 1rem; /* Sécurité pour le mobile */
+    margin: 1rem;
 }
 
-/* 3. Typographie et titres */
 h2 {
     text-align: center;
     margin-top: 0;
@@ -33,7 +30,6 @@ h2 {
     font-weight: 700;
 }
 
-/* 4. Champs de saisie et labels */
 .form-group, .form-group-last {
     margin-bottom: 1.25rem;
     display: flex;
@@ -63,7 +59,6 @@ input:focus {
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-/* 5. Boutons et alertes */
 .btn {
     width: 100%;
     padding: 0.8rem;
@@ -98,7 +93,6 @@ input:focus {
     border: 1px solid #fee2e2;
 }
 
-/* 6. Lien d'inscription */
 .footer-text {
     text-align: center;
     margin-top: 1.5rem;

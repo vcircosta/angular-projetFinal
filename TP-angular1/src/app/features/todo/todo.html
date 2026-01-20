@@ -1,0 +1,52 @@
+<div class="todo-container">
+  <h2>Ma Todo List</h2>
+
+  <div class="add-todo-box">
+    <input [(ngModel)]="newTodoTitle" placeholder="Titre de la tâche">
+    <textarea [(ngModel)]="newTodoDescription" placeholder="Description (optionnel)"></textarea>
+    <button (click)="addTodo()" [disabled]="!newTodoTitle().trim()">Ajouter la tâche</button>
+  </div>
+
+  <div class="todo-list">
+    @for (item of todos(); track item.id) {
+      <div class="todo-item" 
+           [class.completed]="item.completed" 
+           [class.editing-mode]="item.isEditing">
+        
+        @if (!item.isEditing) {
+          <div class="todo-content">
+            <input 
+              type="checkbox" 
+              [checked]="item.completed" 
+              (change)="toggleTodo(item)"
+            >
+            <div class="text-group">
+              <span class="todo-text">{{ item.title }}</span>
+              @if (item.description) {
+                <p class="todo-desc">{{ item.description }}</p>
+              }
+            </div>
+          </div>
+          
+          <div class="actions">
+            <button class="btn-edit" (click)="editTodo(item)">Modifier</button>
+            <button class="btn-delete" (click)="deleteTodo(item.id)">Supprimer</button>
+          </div>
+        } 
+        @else {
+          <div class="edit-box">
+            <input #editTitle [value]="item.title" class="edit-input" placeholder="Titre">
+            <textarea #editDesc class="edit-input" placeholder="Description">{{ item.description }}</textarea>
+            
+            <div class="actions">
+              <button class="btn-save" (click)="saveEdit(item, editTitle.value, editDesc.value)">💾 Sauvegarder</button>
+              <button class="btn-cancel" (click)="cancelEdit(item)">❌ Annuler</button>
+            </div>
+          </div>
+        }
+      </div>
+    } @empty {
+      <p class="empty-msg">Aucune tâche trouvée. Créez-en une !</p>
+    }
+  </div>
+</div>
